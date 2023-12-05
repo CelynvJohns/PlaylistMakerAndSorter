@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>View All Playlists</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+	<meta charset="UTF-8">
+	<title>View All Playlists</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
 
-        th, td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: left;
-        }
+		th,
+		td {
+			border: 1px solid #000;
+			padding: 8px;
+			text-align: left;
+		}
 
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+		th {
+			background-color: #f2f2f2;
+		}
+	</style>
 </head>
+
 <body>
-    <form>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Main Genre</th>
-                <th>Number of Songs</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            <tr th:each="currentPlaylist : ${Playlists}">
-                <td th:text="${currentPlaylist.id}" />
-                <td th:text="${currentPlaylist.name}" />
-                <td th:text="${currentPlaylist.mainGenre}" />
-                <td th:text="${currentPlaylist.numberOfSongs}" />
-                <td><a th:href="@{/editPlaylist/{id}(id=${currentPlaylist.id})}">Edit</a></td>
-                <td><a th:href="@{/deletePlaylists/{id}(id=${currentPlaylist.id})}">Delete</a></td>
-            </tr>
-        </table>
-    </form>
-    <a href="../inputPlaylists">Add a new Playlist</a>
+	<form>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Main Genre</th>
+				<th>Number of Songs</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+			<tr th:each="currentPlaylist : ${playlists}">
+				<td th:text="${currentPlaylist.id}"></td>
+				<td th:text="${currentPlaylist.name}"></td>
+				<td th:text="${currentPlaylist.mainGenre}"></td>
+				<td th:text="${currentPlaylist.numberOfSongs}"></td>
+				<td><a th:href="@{/editPlaylist/{id}(id=${currentPlaylist.id})}">Edit</a></td>
+				<td><a th:href="@{/deletePlaylist/{id}(id=${currentPlaylist.id})}">Delete</a></td>
+			</tr>
+
+		</table>
+	</form>
+	<a href="../inputPlaylists">Add a new Playlist</a>
 </body>
+
 </html>
