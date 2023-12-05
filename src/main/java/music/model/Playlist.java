@@ -15,11 +15,11 @@ import jakarta.persistence.Table;
 public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long p_id;
 
     private String name;
     private String mainGenre;
-    private int numberOfSongs;
+    private Integer numberOfSongs;
 
 
     // no args constructor
@@ -53,25 +53,22 @@ public class Playlist {
      * @param mainGenre
      * @param numberOfSongs
      */
-    public Playlist(String name, String mainGenre, int numberOfSongs) {
+    public Playlist(String name, String mainGenre, Integer numberOfSongs) {
         super();
         this.name = name;
         this.mainGenre = mainGenre;
         this.numberOfSongs = numberOfSongs;
     }
 
-    /**
-     * @return id
-     */
-    public long getId() {
-        return id;
+    public long getP_id() {
+        return p_id;
     }
 
     /**
-     * @param id
+     * @param p_id
      */
-    public void setId(long id) {
-        this.id = id;
+    public void setP_id(long p_id) {
+        this.p_id = p_id;
     }
 
 
@@ -106,14 +103,14 @@ public class Playlist {
     /**
      * @return numberOfSongs
      */
-    public int getNumberOfSongs() {
+    public Integer getNumberOfSongs() {
         return numberOfSongs;
     }
 
     /**
      * @param numberOfSongs
      */
-    public void setNumberOfSongs(int numberOfSongs) {
+    public void setNumberOfSongs(Integer numberOfSongs) {
         this.numberOfSongs = numberOfSongs;
     }
 
@@ -121,7 +118,7 @@ public class Playlist {
     // To String
     @Override
     public String toString() {
-        return "Playlist [id=" + id + ", name=" + name + ", mainGenre=" + mainGenre + ", numberOfSongs="
+        return "Playlist [p_id=" + p_id + ", name=" + name + ", mainGenre=" + mainGenre + ", numberOfSongs="
                 + numberOfSongs + "]";
     }
 }

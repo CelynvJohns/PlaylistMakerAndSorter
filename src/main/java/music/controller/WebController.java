@@ -1,5 +1,7 @@
 package music.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,11 @@ public class WebController {
     @Autowired
     private MusicLibraryService musicLibraryService;
 
+    @GetMapping({"/", "/index"})
+    public String index() {
+        return "index";
+    }
+    
     // Mapping for viewing all songs
     @GetMapping("/viewAllSongs")
     public String viewAllSongs(Model model) {
@@ -50,10 +57,11 @@ public class WebController {
         return "redirect:/viewAllSongs";
     }
 
-    // Mapping for viewing all playlists
+ // Mapping for viewing all playlists
     @GetMapping("/viewAllPlaylists")
     public String viewAllPlaylists(Model model) {
-        model.addAttribute("playlists", musicLibraryService.getAllPlaylists());
+        List<Playlist> playlists = musicLibraryService.getAllPlaylists();
+        model.addAttribute("playlists", playlists);
         return "playlistResults";
     }
 
@@ -66,21 +74,21 @@ public class WebController {
     }
 
     // Mapping for editing a playlist
-    @GetMapping("/editPlaylist/{id}")
-    public String showUpdatePlaylists(@PathVariable("id") long id, Model model) {
+    @GetMapping("/editPlaylist/{p_id}")
+    public String showUpdatePlaylists(@PathVariable("p_id") long id, Model model) {
         Playlist playlist = musicLibraryService.getPlaylistById(id);
         model.addAttribute("newPlaylists", playlist);
         return "playlistInput";
     }
 
-    @PostMapping("/updatePlaylist/{id}")
+    @PostMapping("/updatePlaylist/{p_id}")
     public String revisePlaylists(@ModelAttribute("newPlaylists") Playlist playlist, Model model) {
         musicLibraryService.updatePlaylist(playlist);
         return "redirect:/viewAllPlaylists";
     }
 
-    @GetMapping("/deletePlaylist/{id}")
-    public String deletePlaylist(@PathVariable("id") long id, Model model) {
+    @GetMapping("/deletePlaylist/{p_id}")
+    public String deletePlaylist(@PathVariable("p_id") long id, Model model) {
         musicLibraryService.deletePlaylist(id);
         return "redirect:/viewAllPlaylists";
     }

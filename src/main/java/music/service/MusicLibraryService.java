@@ -51,16 +51,16 @@ public class MusicLibraryService {
         playlistRepository.save(playlist);
     }
 
-    public Playlist getPlaylistById(long id) {
-        return playlistRepository.findById(id).orElse(null);
+    public Playlist getPlaylistById(long p_id) {
+        return playlistRepository.findById(p_id).orElse(null);
     }
 
     public void updatePlaylist(Playlist playlist) {
         playlistRepository.save(playlist);
     }
 
-    public void deletePlaylist(long id) {
-        Playlist playlist = playlistRepository.findById(id).orElse(null);
+    public void deletePlaylist(long p_id) {
+        Playlist playlist = playlistRepository.findById(p_id).orElse(null);
         if (playlist != null) {
             playlistRepository.delete(playlist);
         }
