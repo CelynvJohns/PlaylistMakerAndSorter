@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert New or Edit Song</title>
+</head>
+<body>	
+<form th:object="${newSongs}" th:action="@{/update/{id}(id=${newSongs.id})}" method=POST>
+Title: <input name="title" size="20" th:field="*{title}"><br />
+Artist: <input name="artist" size="20" th:field="*{artist}"><br />
+Genres: <input name="genres" size="20" th:field="*{genres}"><br />
+Album: <input name="album" size="20" th:field="*{album}"><br />
+Language: <input name="language" size="20" th:field="*{language}"><br />
+Duration: <input name="duration" size="20" th:field="*{duration}"><br />
+Release Year: <input name="releaseYear" size="20" th:field="*{releaseYear}"><br />
+Beats Per Minute: <input name="bpm" size="20" th:field="*{bpm}"><br />
+Explict? : <input type="checkbox" name="explicit" size="20" th:field="*{explicit}"><br />
+<input name="Submit" type="submit" value="submit" />
+</form>
+<a href="../viewAllSongs">View All Songs</a>
+
+</body>
+</html>

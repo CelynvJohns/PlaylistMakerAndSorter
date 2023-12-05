@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert New or Edit Playlist</title>
+</head>
+
+<body>
+<form th:object="${newPlaylists}" th:action="@{/updatePlaylist/{id}(id=${newPlaylists.id})}" method=POST>
+    Name: <input name="name" size="20" th:field="*{name}" /><br />
+    Main Genre: <input name="mainGenre" size="20" th:field="*{mainGenre}" /><br />
+    Number of Songs: <input name="numberOfSongs" size="20" th:field="*{numberOfSongs}" readonly /><br />
+    <input name="Submit" type="submit" value="submit" />
+</form>
+
+
+
+
+	<a href="../viewAllPlaylists">View All Playlists</a>
+</body>
+
+</html>
