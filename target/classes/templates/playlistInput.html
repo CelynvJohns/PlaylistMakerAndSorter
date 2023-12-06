@@ -7,8 +7,8 @@
 </head>
 
 <body>
-    <form th:object="${newPlaylists}" th:action="@{/updatePlaylist/{p_id}(p_id=${newPlaylists.p_id})}" method="post">
-        <input name="p_id" type="hidden" th:field="*{p_id}" />
+    <form th:object="${newPlaylists}" th:action="@{/updatePlaylist/{pId}(pId=${newPlaylists.pId})}" method="post">
+        <input name="pId" type="hidden" th:field="*{pId}" />
         Name: <input name="name" size="20" th:field="*{name}" /><br />
         Main Genre: <input name="mainGenre" size="20" th:field="*{mainGenre}" /><br />
         Number of Songs: <input name="numberOfSongs" size="20" th:field="*{numberOfSongs}" readonly /><br />

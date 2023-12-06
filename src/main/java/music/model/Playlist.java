@@ -15,11 +15,11 @@ import jakarta.persistence.Table;
 public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long p_id;
+    private long pId;
 
     private String name;
     private String mainGenre;
-    private Integer numberOfSongs;
+    private Integer numberOfSongs= 0;
 
 
     // no args constructor
@@ -60,15 +60,15 @@ public class Playlist {
         this.numberOfSongs = numberOfSongs;
     }
 
-    public long getP_id() {
-        return p_id;
+    public long getPId() {
+        return pId;
     }
 
     /**
-     * @param p_id
+     * @param pId
      */
-    public void setP_id(long p_id) {
-        this.p_id = p_id;
+    public void setPId(long pId) {
+        this.pId = pId;
     }
 
 
@@ -118,7 +118,7 @@ public class Playlist {
     // To String
     @Override
     public String toString() {
-        return "Playlist [p_id=" + p_id + ", name=" + name + ", mainGenre=" + mainGenre + ", numberOfSongs="
+        return "Playlist [pId=" + pId + ", name=" + name + ", mainGenre=" + mainGenre + ", numberOfSongs="
                 + numberOfSongs + "]";
     }
 }

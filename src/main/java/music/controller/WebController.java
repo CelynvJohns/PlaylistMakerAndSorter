@@ -61,11 +61,14 @@ public class WebController {
 
  // Mapping for viewing all playlists
     @GetMapping("/viewAllPlaylists")
-    public String viewAllPlaylists(Model model) {
-        List<Playlist> playlists = musicLibraryService.getAllPlaylists();
+    public String viewAllPlaylists(@RequestParam(name = "sortBy", defaultValue = "pId") String sortBy,
+                                    @RequestParam(name = "sortOrder", defaultValue = "asc") String sortOrder,
+                                    Model model) {
+        List<Playlist> playlists = musicLibraryService.getAllPlaylists(sortBy, sortOrder);
         model.addAttribute("playlists", playlists);
         return "playlistResults";
     }
+
 
     // Mapping for adding a new playlist
     @GetMapping("/inputPlaylists")
@@ -76,21 +79,21 @@ public class WebController {
     }
 
     // Mapping for editing a playlist
-    @GetMapping("/editPlaylist/{p_id}")
-    public String showUpdatePlaylists(@PathVariable("p_id") long id, Model model) {
+    @GetMapping("/editPlaylist/{pId}")
+    public String showUpdatePlaylists(@PathVariable("pId") long id, Model model) {
         Playlist playlist = musicLibraryService.getPlaylistById(id);
         model.addAttribute("newPlaylists", playlist);
         return "playlistInput";
     }
 
-    @PostMapping("/updatePlaylist/{p_id}")
+    @PostMapping("/updatePlaylist/{pId}")
     public String revisePlaylists(@ModelAttribute("newPlaylists") Playlist playlist, Model model) {
         musicLibraryService.updatePlaylist(playlist);
         return "redirect:/viewAllPlaylists";
     }
 
-    @GetMapping("/deletePlaylist/{p_id}")
-    public String deletePlaylist(@PathVariable("p_id") long id, Model model) {
+    @GetMapping("/deletePlaylist/{pId}")
+    public String deletePlaylist(@PathVariable("pId") long id, Model model) {
         musicLibraryService.deletePlaylist(id);
         return "redirect:/viewAllPlaylists";
     }

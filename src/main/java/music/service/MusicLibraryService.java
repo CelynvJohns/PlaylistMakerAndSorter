@@ -57,24 +57,34 @@ public class MusicLibraryService {
 
     // More methods for managing songs...
 
-    public List<Playlist> getAllPlaylists() {
-        return playlistRepository.findAll();
+    public List<Playlist> getAllPlaylists(String sortBy, String sortOrder) {
+        // Validate the sortBy parameter to prevent potential issues
+        String[] allowedFields = {"pId", "name", "mainGenre", "numberOfSongs"};
+        if (!Arrays.asList(allowedFields).contains(sortBy)) {
+            // Handle invalid sortBy values, you might throw an exception or use a default value
+            throw new IllegalArgumentException("Invalid sortBy parameter");
+        }
+
+        Sort.Order order = sortOrder.equalsIgnoreCase("asc") ? Sort.Order.asc(sortBy) : Sort.Order.desc(sortBy);
+        Sort sort = Sort.by(order);
+
+        return playlistRepository.findAll(sort);
     }
 
     public void addPlaylist(Playlist playlist) {
         playlistRepository.save(playlist);
     }
 
-    public Playlist getPlaylistById(long p_id) {
-        return playlistRepository.findById(p_id).orElse(null);
+    public Playlist getPlaylistById(long pId) {
+        return playlistRepository.findById(pId).orElse(null);
     }
 
     public void updatePlaylist(Playlist playlist) {
         playlistRepository.save(playlist);
     }
 
-    public void deletePlaylist(long p_id) {
-        Playlist playlist = playlistRepository.findById(p_id).orElse(null);
+    public void deletePlaylist(long pId) {
+        Playlist playlist = playlistRepository.findById(pId).orElse(null);
         if (playlist != null) {
             playlistRepository.delete(playlist);
         }

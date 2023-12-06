@@ -2,50 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>View All Playlists</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+	<meta charset="UTF-8">
+	<title>View All Playlists</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
 
-        th,
-        td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: left;
-        }
+		th,
+		td {
+			border: 1px solid #000;
+			padding: 8px;
+			text-align: left;
+		}
 
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+		th {
+			background-color: #f2f2f2;
+			cursor: pointer;
+		}
+	</style>
 </head>
 
 <body>
-    <form>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Main Genre</th>
-                <th>Number of Songs</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            <tr th:each="currentPlaylist : ${playlists}">
-                <td th:text="${currentPlaylist.p_id}"></td>
-                <td th:text="${currentPlaylist.name}"></td>
-                <td th:text="${currentPlaylist.mainGenre}"></td>
-                <td th:text="${currentPlaylist.numberOfSongs}"></td>
-                <td><a th:href="@{/editPlaylist/{p_id}(p_id=${currentPlaylist.p_id})}">Edit</a></td>
-                <td><a th:href="@{/deletePlaylist/{p_id}(p_id=${currentPlaylist.p_id})}">Delete</a></td>
-            </tr>
-        </table>
-    </form>
-    <a href="../inputPlaylists">Add a new Playlist</a>
-    <a href="../index">Go Home</a>
+	<form>
+		<table>
+			<tr>
+				<th onclick="sortTable('pId')">ID</th>
+				<th onclick="sortTable('name')">Name</th>
+				<th onclick="sortTable('mainGenre')">Main Genre</th>
+				<th onclick="sortTable('numberOfSongs')">Number of Songs</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+			<tr th:each="currentPlaylist : ${playlists}">
+				<td th:text="${currentPlaylist.pId}"></td>
+				<td th:text="${currentPlaylist.name}"></td>
+				<td th:text="${currentPlaylist.mainGenre}"></td>
+				<td th:text="${currentPlaylist.numberOfSongs}"></td>
+				<td><a th:href="@{/editPlaylist/{pId}(pId=${currentPlaylist.pId})}">Edit</a></td>
+				<td><a th:href="@{/deletePlaylist/{pId}(pId=${currentPlaylist.pId})}">Delete</a></td>
+			</tr>
+		</table>
+	</form>
+	<a href="../inputPlaylists">Add a new Playlist</a>
+	<a href="../index">Go Home</a>
+
+	<script>
+		function sortTable(sortBy) {
+			var url = new URL(window.location.href);
+			var sortOrder = url.searchParams.get("sortOrder");
+
+			// Toggle the sort order between 'asc' and 'desc'
+			sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+
+			// Redirect to the same page with the sorting parameters
+			window.location.href = '/viewAllPlaylists?sortBy=' + sortBy + '&sortOrder=' + sortOrder;
+		}
+	</script>
 </body>
 
 </html>
