@@ -15,28 +15,31 @@
 			border: 1px solid #000;
 			padding: 8px;
 			text-align: left;
+			cursor: pointer;
 		}
 
 		th {
 			background-color: #f2f2f2;
 		}
 	</style>
+	<!-- Include jQuery from CDN -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
 	<form>
-		<table>
+		<table id="songTable">
 			<tr>
-				<th>ID</th>
-				<th>Title</th>
-				<th>Artist</th>
-				<th>Genres</th>
-				<th>Album</th>
-				<th>Language</th>
-				<th>Duration</th>
-				<th>Release Year</th>
-				<th>Beats Per Minute</th>
-				<th>Explicit? </th>
+				<th onclick="sortTable('id')">Id</th>
+				<th onclick="sortTable('title')">Title</th>
+				<th onclick="sortTable('artist')">Artist</th>
+				<th onclick="sortTable('genres')">Genre</th>
+				<th onclick="sortTable('album')">Album</th>
+				<th onclick="sortTable('language')">Language</th>
+				<th onclick="sortTable('duration')">Duration</th>
+				<th onclick="sortTable('releaseYear')">Release Year</th>
+				<th onclick="sortTable('bpm')">Beats per Minute</th>
+				<th onclick="sortTable('explicit')">Explicit?</th>
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
@@ -54,10 +57,24 @@
 				<td><a th:href="@{/edit/{id}(id=${song.id})}">Edit</a></td>
 				<td><a th:href="@{/delete/{id}(id=${song.id})}">Delete</a></td>
 			</tr>
-
 		</table>
 	</form>
 	<a href="../inputSongs">Add a new Song</a>
+	<a href="../index">Go Home</a>
+
+	<script>
+		function sortTable(sortBy) {
+			var url = new URL(window.location.href);
+			var sortOrder = url.searchParams.get("sortOrder");
+
+			// Toggle the sort order between 'asc' and 'desc'
+			sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+
+			// Redirect to the same page with the sorting parameters
+			window.location.href = '/viewAllSongs?sortBy=' + sortBy + '&sortOrder=' + sortOrder;
+		}
+	</script>
+
 </body>
 
 </html>

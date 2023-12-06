@@ -24,10 +24,12 @@ public class WebController {
     
     // Mapping for viewing all songs
     @GetMapping("/viewAllSongs")
-    public String viewAllSongs(Model model) {
-        model.addAttribute("songs", musicLibraryService.getAllSongs());
+    public String viewAllSongs(Model model, @RequestParam(required = false, defaultValue = "title") String sortBy, @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        List<Song> songs = musicLibraryService.getAllSongs(sortBy, sortOrder);
+        model.addAttribute("songs", songs);
         return "songResults";
     }
+
 
     // Mapping for adding a new song
     @GetMapping("/inputSongs")
