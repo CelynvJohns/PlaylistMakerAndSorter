@@ -33,6 +33,7 @@
 				<th onclick="sortTable('name')">Name</th>
 				<th onclick="sortTable('mainGenre')">Main Genre</th>
 				<th onclick="sortTable('numberOfSongs')">Number of Songs</th>
+				<th>Songs</th> <!-- New Column -->
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
@@ -42,6 +43,14 @@
 				<td th:text="${currentPlaylist.name}"></td>
 				<td th:text="${currentPlaylist.mainGenre}"></td>
 				<td th:text="${currentPlaylist.numberOfSongs}"></td>
+				<td>
+					<!-- Iterate over songs in the current playlist -->
+					<!--<span th:each="song : ${currentPlaylist.songs}">
+						<span th:text="${song.title}"></span> --> <!-- Display song title, adjust as needed -->
+						<!--<span th:if="${not #lists.last(song)}">, </span>--> <!-- Add comma if not the last song -->
+					<!--</span>-->
+				</td>
+
 				<td><a th:href="@{/editPlaylist/{pId}(pId=${currentPlaylist.pId})}">Edit</a></td>
 				<td><a th:href="@{/deletePlaylist/{pId}(pId=${currentPlaylist.pId})}">Delete</a></td>
 			</tr>
