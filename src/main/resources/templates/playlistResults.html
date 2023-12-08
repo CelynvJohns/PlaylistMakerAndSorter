@@ -28,6 +28,7 @@
 	<form>
 		<table>
 			<tr>
+				<!-- allows for tables to be sorted -->
 				<th onclick="sortTable('pId')">ID</th>
 				<th onclick="sortTable('name')">Name</th>
 				<th onclick="sortTable('mainGenre')">Main Genre</th>
@@ -35,6 +36,7 @@
 				<th>Edit</th>
 				<th>Delete</th>
 			</tr>
+			<!-- allows for all the songs to be shown -->
 			<tr th:each="currentPlaylist : ${playlists}">
 				<td th:text="${currentPlaylist.pId}"></td>
 				<td th:text="${currentPlaylist.name}"></td>
@@ -45,10 +47,12 @@
 			</tr>
 		</table>
 	</form>
+	<!-- navigation -->
 	<a href="../inputPlaylists">Add a new Playlist</a>
 	<a href="../index">Go Home</a>
 
 	<script>
+		// allows for table to be sorted
 		function sortTable(sortBy) {
 			var url = new URL(window.location.href);
 			var sortOrder = url.searchParams.get("sortOrder");

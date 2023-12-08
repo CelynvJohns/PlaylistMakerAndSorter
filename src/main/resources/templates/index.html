@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>View Playlists or Songs</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>View Playlists or Songs</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		nav {
+			background-color: #f8f9fa;
+			/* Navbar background color */
+			padding: 10px;
+			text-align: center;
+		}
+
+		nav a {
+			display: inline-block;
+			margin: 0 10px;
+			text-decoration: none;
+			color: #0366d6;
+			/* Link color */
+		}
+
+		nav a:hover {
+			text-decoration: underline;
+		}
+	</style>
 </head>
+
 <body>
-<a href="viewAllSongs">View all Songs</a><br/>
-<a href="inputSongs">Add a new Song</a><br/>
-<a href="viewAllPlaylists">View all Playlists</a><br/>
-<a href="inputPlaylists">Add a new Playlist</a>
+	<nav>
+		<!-- sets up navigation to different pages -->
+		<a href="viewAllSongs">View all Songs</a>
+		<a href="inputSongs">Add a new Song</a>
+		<a href="viewAllPlaylists">View all Playlists</a>
+		<a href="inputPlaylists">Add a new Playlist</a>
+	</nav>
 </body>
+
 </html>

@@ -2,21 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Insert New or Edit Playlist</title>
+	<meta charset="UTF-8">
+	<title>Insert New or Edit Playlist</title>
 </head>
 
 <body>
-    <form th:object="${newPlaylists}" th:action="@{/updatePlaylist/{pId}(pId=${newPlaylists.pId})}" method="post">
-        <input name="pId" type="hidden" th:field="*{pId}" />
-        Name: <input name="name" size="20" th:field="*{name}" /><br />
-        Main Genre: <input name="mainGenre" size="20" th:field="*{mainGenre}" /><br />
-        Number of Songs: <input name="numberOfSongs" size="20" th:field="*{numberOfSongs}" readonly /><br />
-        <input name="Submit" type="submit" value="submit" />
-    </form>
+	<!-- allows for playlists to be created and updated -->
+	<form th:object="${newPlaylists}" th:action="@{/updatePlaylist/{pId}(pId=${newPlaylists.pId})}" method="post">
+		<input name="pId" type="hidden" th:field="*{pId}" />
 
-    <a href="../viewAllPlaylists">View All Playlists</a>
-    <a href="../index">Go Home</a>
+		<!-- Name field with required attribute -->
+		Name: <input name="name" size="20" th:field="*{name}" required /><br />
+
+		<!-- Main Genre field with required attribute -->
+		Main Genre: <input name="mainGenre" size="20" th:field="*{mainGenre}" required /><br />
+
+		<!-- Number of Songs field (read-only) -->
+		Number of Songs: <input name="numberOfSongs" size="20" th:field="*{numberOfSongs}" readonly /><br />
+
+		<!-- Submit button -->
+		<input name="Submit" type="submit" value="submit" />
+	</form>
+
+	<!-- sets up navigation -->
+	<a href="../viewAllPlaylists">View All Playlists</a>
+	<a href="../index">Go Home</a>
 </body>
 
 </html>

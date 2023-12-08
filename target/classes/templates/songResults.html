@@ -27,42 +27,186 @@
 </head>
 
 <body>
-	<form>
-		<table id="songTable">
-			<tr>
-				<th onclick="sortTable('id')">Id</th>
-				<th onclick="sortTable('title')">Title</th>
-				<th onclick="sortTable('artist')">Artist</th>
-				<th onclick="sortTable('genres')">Genre</th>
-				<th onclick="sortTable('album')">Album</th>
-				<th onclick="sortTable('language')">Language</th>
-				<th onclick="sortTable('duration')">Duration</th>
-				<th onclick="sortTable('releaseYear')">Release Year</th>
-				<th onclick="sortTable('bpm')">Beats per Minute</th>
-				<th onclick="sortTable('explicit')">Explicit?</th>
-				<th>Edit</th>
-				<th>Delete</th>
-			</tr>
-			<tr th:each="song : ${songs}">
-				<td th:text="${song.id}"></td>
-				<td th:text="${song.title}"></td>
-				<td th:text="${song.artist}"></td>
-				<td th:text="${song.genres}"></td>
-				<td th:text="${song.album}"></td>
-				<td th:text="${song.language}"></td>
-				<td th:text="${song.duration}"></td>
-				<td th:text="${song.releaseYear}"></td>
-				<td th:text="${song.bpm}"></td>
-				<td th:text="${song.explicit}"></td>
-				<td><a th:href="@{/edit/{id}(id=${song.id})}">Edit</a></td>
-				<td><a th:href="@{/delete/{id}(id=${song.id})}">Delete</a></td>
-			</tr>
-		</table>
+	<!-- would allow for songs to be added to a playlist -->
+	<form id="addSongForm">
+		<!-- playlist name -->
+		<label for="name">Select Playlist:</label>
+		<select id="name" name="name"></select>
+
+		<!-- song title -->
+		<label for="title">Song Title:</label>
+		<select id="title" name="title"></select>
+
+		<!-- artist -->
+		<label for="artist">Artist:</label>
+		<select id="artist" name="artist"></select>
+		<!-- Submit button -->
+		<button type="button" onclick="addSongToPlaylist()">Add to Playlist</button>
 	</form>
+
+	<table id="songTable">
+		<tr>
+			<!-- allows for songs to be sorted -->
+			<th onclick="sortTable('id')">Id</th>
+			<th onclick="sortTable('title')">Title</th>
+			<th onclick="sortTable('artist')">Artist</th>
+			<th onclick="sortTable('genres')">Genre</th>
+			<th onclick="sortTable('album')">Album</th>
+			<th onclick="sortTable('language')">Language</th>
+			<th onclick="sortTable('duration')">Duration</th>
+			<th onclick="sortTable('releaseYear')">Release Year</th>
+			<th onclick="sortTable('bpm')">Beats per Minute</th>
+			<th onclick="sortTable('explicit')">Explicit?</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
+		<tr th:each="song : ${songs}">
+			<!-- allows for songs to be put in the database and displayed in the table -->
+			<td th:text="${song.id}"></td>
+			<td th:text="${song.title}"></td>
+			<td th:text="${song.artist}"></td>
+			<td th:text="${song.genres}"></td>
+			<td th:text="${song.album}"></td>
+			<td th:text="${song.language}"></td>
+			<td th:text="${song.duration}"></td>
+			<td th:text="${song.releaseYear}"></td>
+			<td th:text="${song.bpm}"></td>
+			<td th:text="${song.explicit}"></td>
+			<!-- edit -->
+			<td><a th:href="@{/edit/{id}(id=${song.id})}">Edit</a></td>
+			<!-- delete -->
+			<td><a th:href="@{/delete/{id}(id=${song.id})}">Delete</a></td>
+		</tr>
+	</table>
+	</form>
+	<!-- navigation -->
 	<a href="../inputSongs">Add a new Song</a>
 	<a href="../index">Go Home</a>
 
 	<script>
+		// Function to fetch playlist names and update the dropdown
+		function fetchNames() {
+			$.ajax({
+				type: "GET",
+				url: "/getNamesAndTitles",
+				success: function (data) {
+					updateDropdowns(data.names, data.titles, data.artists);
+					// Fetch and display songs for the first playlist
+					if (data.names.length > 0) {
+						fetchAndDisplaySongs(data.names[0]);
+					}
+				},
+				error: function (error) {
+					console.error(error);
+				}
+			});
+		}
+
+
+		function updateDropdowns(names, titles, artists) {
+			// Update playlist dropdown
+			updatePlaylistDropdown(names);
+
+			// Update title and artist dropdowns
+			updateDropdown("selectedTitle", titles);
+			updateDropdown("selectedArtist", artists);
+		}
+
+		// finds songs by id
+		function updateDropdown(id, options) {
+			var dropdown = document.getElementById(id);
+			dropdown.innerHTML = "";
+
+			options.forEach(function (option) {
+				var optionElem = document.createElement("option");
+				optionElem.value = option;
+				optionElem.text = option;
+				dropdown.appendChild(optionElem);
+			});
+		}
+
+
+		// Function to fetch and display songs for a specific playlist
+		function fetchAndDisplaySongs(name) {
+			$.ajax({
+				type: "GET",
+				url: "/getNamesAndTitles",
+				data: {
+					name: name
+				},
+				success: function (songs) {
+					updatePlaylistTable(name, songs);
+				},
+				error: function (error) {
+					console.error(error);
+				}
+			});
+		}
+
+		// Function to update the playlist table with songs
+		function updatePlaylistTable(name, songs) {
+			var playlistTable = document.getElementById("songTable");
+			// Clear existing rows
+			playlistTable.innerHTML = "";
+
+			songs.forEach(function (song) {
+				var row = playlistTable.insertRow();
+				var cellPlaylist = row.insertCell(0);
+				var cellTitle = row.insertCell(1);
+				var cellArtist = row.insertCell(2);
+				// Add more cells based on your Song entity fields
+
+				cellPlaylist.innerHTML = name;
+				cellTitle.innerHTML = song.title;
+				cellArtist.innerHTML = song.artist;
+				// Add more cells based on your Song entity fields
+
+				// Add Edit and Delete links
+
+				var cellDelete = row.insertCell(4);
+
+				cellEdit.innerHTML = '<a href="#">Edit</a>'; // Replace with actual edit link
+				cellDelete.innerHTML = '<a href="#">Delete</a>'; // Replace with actual delete link
+			});
+		}
+
+		// Call fetchNames when the page loads
+		$(document).ready(function () {
+			fetchNames();
+		});
+
+		function addSongToPlaylist() {
+			var name = document.getElementById("name").value;
+			var title = document.getElementById("title").value;
+			var artist = document.getElementById("artist").value;
+
+			$.ajax({
+				type: "POST",
+				url: "/addSongToPlaylist",
+				data: {
+					name: name,
+					title: title,
+					artist: artist
+				},
+				success: function (response) {
+					console.log(response);
+					fetchNames();
+					fetchAndDisplaySongs(name);
+				},
+				error: function (error) {
+					console.error(error);
+				}
+			});
+		}
+
+
+		// Function to handle playlist selection change
+		document.getElementById("name").addEventListener("change", function () {
+			var selectedPlaylist = this.value;
+			fetchAndDisplaySongs(selectedPlaylist);
+		});
+
+		// Function to sort the table
 		function sortTable(sortBy) {
 			var url = new URL(window.location.href);
 			var sortOrder = url.searchParams.get("sortOrder");
@@ -73,6 +217,7 @@
 			// Redirect to the same page with the sorting parameters
 			window.location.href = '/viewAllSongs?sortBy=' + sortBy + '&sortOrder=' + sortOrder;
 		}
+
 	</script>
 
 </body>
