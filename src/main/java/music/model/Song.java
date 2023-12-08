@@ -53,6 +53,11 @@ public class Song {
 		super();
 	}
 
+	public Song(String title) {
+		super();
+		this.title = title;
+	}
+	
 	// Title and Artist constructor
 	/**
 	 * @param title
@@ -108,14 +113,14 @@ public class Song {
 	/**
 	 * @return songId
 	 */
-	public long id() {
+	public long getId() {
 		return id;
 	}
 
 	/**
 	 * @param songId
 	 */
-	public void setsId(long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -258,6 +263,7 @@ public class Song {
 	public void setPlaylist(Playlist playlist) {
 		this.playlist = playlist;
 	}
+	
 
 	// to string
 	@Override
@@ -266,5 +272,6 @@ public class Song {
 				+ album + ", language=" + language + ", duration=" + duration + ", releaseYear=" + releaseYear
 				+ ", bpm=" + bpm + ", explicit=" + explicit + "]";
 	}
+
 
 }

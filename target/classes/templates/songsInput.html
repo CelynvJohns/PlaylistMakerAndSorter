@@ -2,37 +2,129 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Insert New or Edit Song</title>
+    <meta charset="UTF-8">
+    <title>Insert New or Edit Song</title>
 </head>
 
 <body>
-	<!-- allows for songs to be created and updated -->
-	<form th:object="${newSongs}" th:action="@{/update/{id}(id=${newSongs.id})}" method=POST>
-		<!-- title -->
-		Title: <input name="title" size="20" th:field="*{title}" required><br />
-		<!-- artist -->
-		Artist: <input name="artist" size="20" th:field="*{artist}" required><br />
-		<!-- genres -->
-		Genres: <input name="genres" size="20" th:field="*{genres}" required><br />
-		<!-- album -->
-		Album: <input name="album" size="20" th:field="*{album}" required><br />
-		<!-- language -->
-		Language: <input name="language" size="20" th:field="*{language}" required><br />
-		<!-- duration -->
-		Duration: <input name="duration" size="20" th:field="*{duration}" required><br />
-		<!-- release year -->
-		Release Year: <input name="releaseYear" size="20" th:field="*{releaseYear}" required><br />
-		<!-- bpm -->
-		Beats Per Minute: <input name="bpm" size="20" th:field="*{bpm}" required><br />
-		<!-- expicit -->
-		Explicit? : <input type="checkbox" name="explicit" size="20" th:field="*{explicit}"><br />
-		<!-- Submit button -->
-		<input name="Submit" type="submit" value="submit" />
-	</form>
-	<!--Navigation -->
-	<a href="../viewAllSongs">View All Songs</a>
-	<a href="../index">Go Home</a>
+    <!-- allows for songs to be created and updated -->
+    <form th:object="${newSongs}" th:action="@{/update/{id}(id=${newSongs.id})}" method="POST"
+        onsubmit="return validateForm()">
+        <!-- title -->
+        Title: <input name="title" size="20" th:field="*{title}" required /> <br />
+        <!-- artist -->
+        Artist: <input name="artist" size="20" th:field="*{artist}" required> <br />
+        <!-- genres -->
+        Genres: <input name="genres" size="20" th:field="*{genres}" required
+            th:attributes="${'pattern=^[a-zA-Z]+$'}"><br />
+        <!-- album -->
+        Album: <input name="album" size="20" th:field="*{album}" required><br />
+        <!-- language -->
+        Language: <input name="language" size="20" th:field="*{language}" required
+            th:attributes="${'pattern=^[a-zA-Z]+$'}"><br />
+        <!-- duration -->
+        Duration: <input name="duration" size="20" th:field="*{duration}" required
+            th:attributes="${'min=0.41 max=813.11'}"><br />
+        <!-- release year -->
+        Release Year: <input name="releaseYear" size="20" th:field="*{releaseYear}" required
+            th:attributes="${'min=1 max=2023'}"><br />
+        <!-- bpm -->
+        Beats Per Minute: <input name="bpm" size="20" th:field="*{bpm}" required
+            th:attributes="${'min=1'}"><br />
+        <!-- explicit -->
+        Explicit? : <input type="checkbox" name="explicit" size="20" th:field="*{explicit}"><br />
+        <!-- Submit button -->
+        <input name="Submit" type="submit" value="submit" />
+    </form>
+    <!-- Navigation -->
+    <a href="../viewAllSongs">View All Songs</a>
+    <a href="../index">Go Home</a>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function validateForm() {
+        // Fetch form fields
+        var title = document.getElementsByName("title")[0].value;
+        var artist = document.getElementsByName("artist")[0].value;
+        var genres = document.getElementsByName("genres")[0].value;
+        var album = document.getElementsByName("album")[0].value;
+        var language = document.getElementsByName("language")[0].value;
+        var duration = document.getElementsByName("duration")[0].value;
+        var releaseYear = document.getElementsByName("releaseYear")[0].value;
+        var bpm = document.getElementsByName("bpm")[0].value;
+
+        // Check if title is not empty and contains only letters
+        if (title.trim() === "" || !/^[a-zA-Z]+$/.test(title)) {
+            alert("Invalid title. Title cannot be empty and must contain only letters.");
+            return false; // Prevent form submission
+        }
+
+        // Check if artist is not empty and contains only letters
+        if (artist.trim() === "" || !/^[a-zA-Z]+$/.test(artist)) {
+            alert("Invalid artist. Artist cannot be empty and must contain only letters.");
+            return false; // Prevent form submission
+        }
+
+        // Check if genres contain only letters
+        if (!/^[a-zA-Z]+$/.test(genres)) {
+            alert("Invalid genres. Genres must contain only letters.");
+            return false; // Prevent form submission
+        }
+
+        // Check if album is not empty and contains only letters
+        if (album.trim() === "" || !/^[a-zA-Z]+$/.test(album)) {
+            alert("Invalid album. Album cannot be empty and must contain only letters.");
+            return false; // Prevent form submission
+        }
+
+        // Check if language contains only letters
+        if (!/^[a-zA-Z]+$/.test(language)) {
+            alert("Invalid language. Language must contain only letters.");
+            return false; // Prevent form submission
+        }
+
+        // Check if duration is a valid number
+        if (isNaN(parseFloat(duration))) {
+            alert("Invalid duration. Must be a valid number.");
+            return false; // Prevent form submission
+        }
+
+        // Check if release year is a valid number
+        if (isNaN(parseInt(releaseYear))) {
+            alert("Invalid release year. Must be a valid number.");
+            return false; // Prevent form submission
+        }
+
+        // Check if BPM is a valid number
+        if (isNaN(parseInt(bpm))) {
+            alert("Invalid BPM. Must be a valid number.");
+            return false; // Prevent form submission
+        }
+
+        // Check if duration is within the specified range
+        if (parseFloat(duration) < 0.41 || parseFloat(duration) > 813.11) {
+            alert("Invalid duration. It must be between 0.41 and 813.11");
+            return false; // Prevent form submission
+        }
+
+        // Check if release year is within the specified range
+        if (parseInt(releaseYear) < 1 || parseInt(releaseYear) > 2023) {
+            alert("Invalid release year. It must be between 1 and 2023");
+            return false; // Prevent form submission
+        }
+
+        // Check if BPM is at least 1
+        if (parseInt(bpm) < 1) {
+            alert("Invalid BPM. It must be at least 1");
+            return false; // Prevent form submission
+        }
+
+        // If all validation passes, return true to submit the form
+        return true;
+    }
+    /*]]>*/
+</script>
+
 
 </body>
 

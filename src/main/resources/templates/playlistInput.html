@@ -8,14 +8,16 @@
 
 <body>
 	<!-- allows for playlists to be created and updated -->
-	<form th:object="${newPlaylists}" th:action="@{/updatePlaylist/{pId}(pId=${newPlaylists.pId})}" method="post">
+	<form th:object="${newPlaylists}" th:action="@{/updatePlaylist/{pId}(pId=${newPlaylists.pId})}" method="post"
+		onsubmit="return validateForm();">
 		<input name="pId" type="hidden" th:field="*{pId}" />
 
 		<!-- Name field with required attribute -->
-		Name: <input name="name" size="20" th:field="*{name}" required /><br />
+		Name: <input name="name" size="20" th:field="*{name}" /><br />
 
 		<!-- Main Genre field with required attribute -->
-		Main Genre: <input name="mainGenre" size="20" th:field="*{mainGenre}" required /><br />
+		Main Genre: <input name="mainGenre" size="20" th:field="*{mainGenre}" required
+			th:attributes="${'pattern=^[a-zA-Z]+$'}" /><br />
 
 		<!-- Number of Songs field (read-only) -->
 		Number of Songs: <input name="numberOfSongs" size="20" th:field="*{numberOfSongs}" readonly /><br />
@@ -27,6 +29,34 @@
 	<!-- sets up navigation -->
 	<a href="../viewAllPlaylists">View All Playlists</a>
 	<a href="../index">Go Home</a>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		function validateForm() {
+			// Fetch form fields
+			var name = document.getElementsByName("name")[0].value;
+			var mainGenre = document.getElementsByName("mainGenre")[0].value;
+
+			// Check if name is not empty
+			if (name.trim() === "") {
+				alert("Name cannot be empty.");
+				return false; // Prevent form submission
+			}
+
+			// Example: Check if mainGenre contains only letters
+			if (!/^[a-zA-Z]+$/.test(mainGenre)) {
+				alert("Invalid mainGenre. Main Genre must contain only letters.");
+				return false; // Prevent form submission
+			}
+
+			// Add more validation checks as needed
+
+			// If all validation passes, return true to submit the form
+			return true;
+		}
+        /*]]>*/
+	</script>
+
 </body>
 
 </html>

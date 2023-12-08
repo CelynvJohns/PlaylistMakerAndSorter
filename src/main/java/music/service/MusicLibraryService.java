@@ -84,8 +84,58 @@ public class MusicLibraryService {
 	 * @param song
 	 */
 	public void addSong(Song song) {
-		songRepository.save(song);
+	    validateSong(song); // Add this line to validate the song
+	    songRepository.save(song);
 	}
+	
+	/**
+	 * Validates the song before saving.
+	 *
+	 * @param song The song to validate.
+	 * @throws IllegalArgumentException If the song is invalid.
+	 */
+	private void validateSong(Song song) {
+	    // Check if the title is not null and matches the pattern
+	    if (song.getTitle() == null || !song.getTitle().matches("^[a-zA-Z]+$")) {
+	        throw new IllegalArgumentException("Invalid song title");
+	    }
+
+	    // Check if the artist is not null and matches the pattern
+	    if (song.getArtist() == null || !song.getArtist().matches("^[a-zA-Z]+$")) {
+	        throw new IllegalArgumentException("Invalid song artist");
+	    }
+
+	    // Check if the genres match the pattern or are an empty string
+	    if (!song.getGenres().matches("^[a-zA-Z]*$")) {
+	        throw new IllegalArgumentException("Invalid song genres");
+	    }
+
+	    // Check if the album is not null and matches the pattern
+	    if (song.getAlbum() == null || !song.getAlbum().matches("^[a-zA-Z]+$")) {
+	        throw new IllegalArgumentException("Invalid song album");
+	    }
+
+	    // Check if the language matches the pattern or is an empty string
+	    if (song.getLanguage() == null ||!song.getLanguage().matches("^[a-zA-Z]*$")) {
+	        throw new IllegalArgumentException("Invalid song language");
+	    }
+
+	    // Check if the duration is within the specified range
+	    if (song.getDuration() == null || song.getDuration() < 0.41 || song.getDuration() > 813.11) {
+	        throw new IllegalArgumentException("Invalid song duration");
+	    }
+
+	    // Check if the release year is within the specified range
+	    if (song.getReleaseYear() < 1 || song.getReleaseYear() > 2023) {
+	        throw new IllegalArgumentException("Invalid song release year");
+	    }
+
+	    // Check if the BPM is at least 1
+	    if (song.getBpm() < 1) {
+	        throw new IllegalArgumentException("Invalid song BPM");
+	    }
+	}
+
 
 	// gets songs by Id
 	/**
@@ -173,7 +223,33 @@ public class MusicLibraryService {
 	 * @param playlist
 	 */
 	public void addPlaylist(Playlist playlist) {
-		playlistRepository.save(playlist);
+	    validatePlaylist(playlist); // Add this line to validate the playlist
+	    playlistRepository.save(playlist);
+	}
+	
+	/**
+	 * Validates the playlist before saving.
+	 *
+	 * @param playlist The playlist to validate.
+	 * @throws IllegalArgumentException If the playlist is invalid.
+	 */
+	private void validatePlaylist(Playlist playlist) {
+	    // Check if the name is not null and matches the pattern
+	    if (playlist.getName() == null || !playlist.getName().matches("^[a-zA-Z]+$")) {
+	        throw new IllegalArgumentException("Invalid playlist name");
+	    }
+
+	    // Check if the mainGenre matches the pattern
+	    if (!playlist.getMainGenre().matches("^[a-zA-Z]+$")) {
+	        throw new IllegalArgumentException("Invalid playlist main genre");
+	    }
+
+	    // Add similar checks for other playlist properties
+
+	    // Example: Check if numberOfSongs is not null
+	    if (playlist.getNumberOfSongs() == null) {
+	        throw new IllegalArgumentException("Invalid playlist number of songs");
+	    }
 	}
 
 	// gets playlist Id

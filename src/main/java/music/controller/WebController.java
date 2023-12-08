@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 // imports from the project
 import music.model.Playlist;
 import music.model.Song;
@@ -54,9 +56,9 @@ public class WebController {
 	 */
 	@GetMapping("/inputSongs")
 	public String addNewSongs(Model model) {
-		Song song = new Song();
-		model.addAttribute("newSongs", song);
-		return "songsInput";
+	    Song song = new Song();
+	    model.addAttribute("newSongs", song);
+	    return "songsInput";
 	}
 
 	// Mapping for editing a song

@@ -1,6 +1,7 @@
 // package
 package music.controller;
 
+
 public class AddSongRequest {
 	// variables
 	private String title;
