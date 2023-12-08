@@ -21,6 +21,10 @@
 			background-color: #f2f2f2;
 			cursor: pointer;
 		}
+
+		.nav-link {
+			margin-right: 20px;
+		}
 	</style>
 </head>
 
@@ -47,7 +51,7 @@
 					<!-- Iterate over songs in the current playlist -->
 					<!--<span th:each="song : ${currentPlaylist.songs}">
 						<span th:text="${song.title}"></span> --> <!-- Display song title, adjust as needed -->
-						<!--<span th:if="${not #lists.last(song)}">, </span>--> <!-- Add comma if not the last song -->
+					<!--<span th:if="${not #lists.last(song)}">, </span>--> <!-- Add comma if not the last song -->
 					<!--</span>-->
 				</td>
 
@@ -57,8 +61,8 @@
 		</table>
 	</form>
 	<!-- navigation -->
-	<a href="../inputPlaylists">Add a new Playlist</a>
-	<a href="../index">Go Home</a>
+	<a href="../inputPlaylists" class="nav-link">Add a new Playlist</a>
+	<a href="../index" class="nav-link">Go Home</a>
 
 	<script>
 		// allows for table to be sorted
