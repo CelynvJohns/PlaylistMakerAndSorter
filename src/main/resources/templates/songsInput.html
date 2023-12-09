@@ -16,14 +16,13 @@
 	<form th:object="${newSongs}" th:action="@{/update/{id}(id=${newSongs.id})}" method="POST"
 		onsubmit="return validateForm()">
 		<!-- title -->
-		Title: <input name="title" size="20" th:field="*{title}" required /> <br />
+		Title: <input name="title" size="20" th:field="*{title}" /> <br />
 		<!-- artist -->
-		Artist: <input name="artist" size="20" th:field="*{artist}" required> <br />
+		Artist: <input name="artist" size="20" th:field="*{artist}"> <br />
 		<!-- genres -->
-		Genres: <input name="genres" size="20" th:field="*{genres}" required
-			th:attributes="${'pattern=^[a-zA-Z]+$'}"><br />
+		Genres: <input name="genres" size="20" th:field="*{genres}" th:attributes="${'pattern=^[a-zA-Z]+$'}"><br />
 		<!-- album -->
-		Album: <input name="album" size="20" th:field="*{album}" required><br />
+		Album: <input name="album" size="20" th:field="*{album}"><br />
 		<!-- language -->
 		Language: <input name="language" size="20" th:field="*{language}" required
 			th:attributes="${'pattern=^[a-zA-Z]+$'}"><br />
@@ -57,27 +56,28 @@
 			var releaseYear = document.getElementsByName("releaseYear")[0].value;
 			var bpm = document.getElementsByName("bpm")[0].value;
 
-			// Check if title is not empty and contains only letters
-			if (title.trim() === "" || !/^[a-zA-Z]+$/.test(title)) {
-				alert("Invalid title. Title cannot be empty and must contain only letters.");
+			// Check if title is not empty 
+			if (title.trim() === "") {
+				alert("Invalid title. Title cannot be empty.");
 				return false; // Prevent form submission
 			}
 
-			// Check if artist is not empty and contains only letters
-			if (artist.trim() === "" || !/^[a-zA-Z]+$/.test(artist)) {
-				alert("Invalid artist. Artist cannot be empty and must contain only letters.");
+			// Check if artist is not empty 
+			if (artist.trim() === "") {
+				alert("Invalid artist. Artist cannonot be empy.");
 				return false; // Prevent form submission
 			}
 
-			// Check if genres contain only letters
-			if (!/^[a-zA-Z]+$/.test(genres)) {
-				alert("Invalid genres. Genres must contain only letters.");
+			// Check if genres contain only letters and isn't empty
+			if (genres.trim() === "" || !/^[a-zA-Z]+$/.test(genres)) {
+				alert("Invalid genres. It cannot be empty and must contain only letters.");
 				return false; // Prevent form submission
 			}
 
-			// Check if album is not empty and contains only letters
-			if (album.trim() === "" || !/^[a-zA-Z]+$/.test(album)) {
-				alert("Invalid album. Album cannot be empty and must contain only letters.");
+
+			// Check if album is not empty
+			if (album.trim() === "") {
+				alert("Invalid album. Album cannot be empty.");
 				return false; // Prevent form submission
 			}
 
